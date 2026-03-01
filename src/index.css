@@ -1,0 +1,119 @@
+@import "tailwindcss";
+
+@theme {
+  --color-sidebarBg: #141A26;
+  --color-brandRed: #D91604;
+  --color-brandOrange: #D95032;
+  --color-brandGold: #B8AB89;
+  --color-brandTeal: #5A94A7;
+  --color-brandBlue: #879DB5;
+  --color-brandDeepBlue: #3F4859;
+  --color-brandMuted: #7D7990;
+  --color-brandSage: #ADC6C6;
+  --color-textMain: #3F4859;
+  --color-surface: #F2F0E4;
+  --color-bgPage: #F2F0EB;
+
+  --font-sans: "JetBrains Mono", "Noto Sans Thai", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+  --font-brand: "Inter", "Noto Sans Thai", sans-serif;
+
+  --shadow-soft: 0 8px 30px rgba(0, 0, 0, 0.04);
+  --shadow-grand: 0 20px 50px rgba(0, 0, 0, 0.15);
+  --shadow-glow-red: 0 0 15px rgba(217, 22, 4, 0.3);
+  --shadow-glow-teal: 0 0 15px rgba(79, 134, 140, 0.3);
+
+  --animate-shimmer: shimmer 1.5s infinite;
+  --animate-fadeIn: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+
+  @keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(79, 134, 140, 0.2);
+  border-radius: 20px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #4F868C;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--color-bgPage);
+  color: var(--color-textMain);
+  font-family: var(--font-sans);
+}
+
+/* Org Tree Styles */
+.org-tree ul {
+    padding-top: 20px; 
+    position: relative;
+    transition: all 0.5s;
+    display: flex; 
+    justify-content: center;
+}
+
+.org-tree li {
+    float: left; text-align: center;
+    list-style-type: none;
+    position: relative;
+    padding: 20px 10px 0 10px;
+    transition: all 0.5s;
+}
+
+/* We will use ::before and ::after to draw the connectors */
+.org-tree li::before, .org-tree li::after {
+    content: ''; 
+    position: absolute; top: 0; right: 50%;
+    border-top: 2px solid #CBD5E1;
+    width: 50%; height: 20px;
+}
+.org-tree li::after {
+    right: auto; left: 50%;
+    border-left: 2px solid #CBD5E1;
+}
+
+/* We need to remove left-right connectors from elements without any siblings */
+.org-tree li:only-child::after, .org-tree li:only-child::before {
+    display: none;
+}
+
+/* Remove space from the top of single children */
+.org-tree li:only-child { padding-top: 0; }
+
+/* Remove left connector from first child and right connector from last child */
+.org-tree li:first-child::before, .org-tree li:last-child::after {
+    border: 0 none;
+}
+
+/* Adding back the vertical connector to the last nodes */
+.org-tree li:last-child::before {
+    border-right: 2px solid #CBD5E1;
+    border-radius: 0 5px 0 0;
+}
+.org-tree li:first-child::after {
+    border-radius: 5px 0 0 0;
+}
+
+/* Time to add the downward connectors from parents */
+.org-tree ul ul::before {
+    content: ''; 
+    position: absolute; top: 0; left: 50%;
+    border-left: 2px solid #CBD5E1;
+    width: 0; height: 20px;
+}
